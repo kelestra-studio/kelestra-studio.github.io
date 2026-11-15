@@ -1,0 +1,146 @@
+/* Kelestra · estilos de la web */
+@font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff") format("woff");font-weight:300 800;font-stretch:100% 125%;font-style:normal;font-display:swap}
+@font-face{font-family:"Archivo";src:url("/fuentes/archivo-italic.woff") format("woff");font-weight:400 600;font-stretch:100%;font-style:italic;font-display:swap}
+
+/* De noche: cielo azul profundo con estrellas doradas. De día: carta impresa en papel. */
+:root{
+  --cielo:#0C1736;
+  --cielo-2:#13214A;
+  --linea:rgba(166,179,211,.16);
+  --oro:#EBC774;
+  --tinta:#F1EDE2;
+  --bruma:#A6B3D3;
+  --estrella:#F6F1E4;
+  --boton:#EBC774;
+  --boton-texto:#0C1736;
+  --max:1160px;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root{--cielo:#F3F5F9;--cielo-2:#E6EBF3;--linea:rgba(18,31,69,.14);--oro:#8C6418;--tinta:#121F45;--bruma:#4E5C80;--estrella:#121F45;--boton:#D9A944;--boton-texto:#121F45;color-scheme:light}
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--cielo);color:var(--tinta);font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:18px;line-height:1.6;font-stretch:100%;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-stretch:125%;font-weight:620;letter-spacing:-.015em;line-height:1.08;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px;border-radius:6px}
+
+.envoltura{max-width:var(--max);margin-inline:auto;padding-inline:16px}
+@media (min-width:720px){.envoltura{padding-inline:32px}}
+
+/* Cabecera */
+.cabecera{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-stretch:125%;font-weight:620;font-size:20px;letter-spacing:-.01em}
+.marca{height:30px;width:auto}
+.marca line{stroke:var(--tinta);stroke-opacity:.6;stroke-width:3;stroke-linecap:round}
+.marca circle{fill:var(--oro)}
+.cabecera nav{display:flex;gap:2px}
+.cabecera nav a{color:var(--bruma);text-decoration:none;font-size:15.5px;padding:8px 12px;border-radius:8px}
+.cabecera nav a:hover{color:var(--tinta);background:var(--cielo-2)}
+@media (max-width:620px){.cabecera nav .opcional{display:none}.cabecera nav a{padding:8px 8px}}
+
+/* Portada */
+.portada{display:grid;gap:24px;padding-block:8px 48px;align-items:center}
+.carta{margin:0;order:-1;width:100%;max-width:300px}
+@media (min-width:900px){
+  .portada{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;padding-block:40px 56px}
+  .carta{order:0;max-width:none}
+}
+h1{font-size:clamp(2.5rem,6vw,5.1rem);line-height:1.02;letter-spacing:-.02em;font-weight:640}
+.entrada{font-size:clamp(1.1rem,1.6vw,1.3rem);color:var(--bruma);max-width:34em;margin-top:24px}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.boton{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border-radius:12px;text-decoration:none;font-weight:600;font-size:17px;border:1px solid var(--linea);background:var(--cielo-2)}
+.boton:hover{border-color:var(--bruma)}
+.boton.principal{background:var(--boton);color:var(--boton-texto);border-color:transparent}
+.boton.principal:hover{filter:brightness(1.06)}
+
+/* carta:inicio */
+.carta svg{width:100%;height:auto;overflow:visible}
+.carta .reticula{fill:none;stroke:var(--linea);stroke-width:1}
+.carta .marco{fill:none;stroke:var(--bruma);stroke-opacity:.45;stroke-width:1}
+.carta .ecliptica{fill:none;stroke:var(--oro);stroke-opacity:.5;stroke-width:1;stroke-dasharray:5 6}
+.carta .rotulo{font-family:"Archivo",sans-serif;font-style:italic;font-size:14px;fill:var(--bruma)}
+.carta .campo circle{fill:var(--estrella)}
+.carta .lineas line{stroke:var(--tinta);stroke-opacity:.55;stroke-width:1.6;stroke-linecap:round}
+.carta .astros circle{fill:var(--oro)}
+.carta .letras path{fill:var(--bruma)}
+.carta .nombre{font-family:"Archivo",sans-serif;font-style:italic;font-size:16px;letter-spacing:.32em;fill:var(--bruma)}
+/* carta:fin */
+
+/* La constelación se dibuja una vez al abrir la página: primero las estrellas, luego las líneas */
+@media (prefers-reduced-motion:no-preference){
+  .carta .astros circle{transform-box:fill-box;transform-origin:center;animation:aparece .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d)}
+  .carta .lineas line{stroke-dasharray:var(--l);stroke-dashoffset:var(--l);animation:traza .6s ease-out forwards;animation-delay:var(--d)}
+  .carta .letras,.carta .nombre{animation:funde .8s ease-out 1.9s both}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@keyframes aparece{from{opacity:0;transform:scale(.15)}}
+@keyframes traza{to{stroke-dashoffset:0}}
+@keyframes funde{from{opacity:0}}
+
+/* Secciones */
+.bloque{padding-block:56px}
+@media (min-width:900px){.bloque{padding-block:72px}}
+h2{font-size:clamp(2rem,4vw,3rem)}
+.intro{color:var(--bruma);max-width:36em;margin-top:16px}
+
+/* Qué hacemos: un catálogo, como los de las estrellas */
+.catalogo{margin-top:40px;border-bottom:1px solid var(--linea)}
+.fila{display:grid;gap:14px;padding-block:28px;border-top:1px solid var(--linea)}
+@media (min-width:900px){.fila{grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr) minmax(0,1fr);gap:40px;padding-block:36px}}
+.fila h3{font-size:clamp(1.45rem,2.2vw,1.8rem)}
+.que p{max-width:32em}
+.nota{margin-top:14px;font-size:15px;color:var(--bruma)}
+.incluye{list-style:none;margin:0;padding:0;display:grid;align-content:start;gap:8px;font-size:16px;color:var(--bruma)}
+.incluye li{position:relative;padding-left:20px}
+.incluye li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--oro)}
+.temvra{display:flex;align-items:center;gap:14px;margin-top:20px;padding:12px 16px 12px 12px;border:1px solid var(--linea);border-radius:16px;text-decoration:none;max-width:30em}
+.temvra:hover{border-color:var(--bruma)}
+.temvra img{width:48px;height:48px;border-radius:12px;flex:none}
+.temvra strong{display:block;font-weight:600}
+.temvra small{display:block;color:var(--bruma);font-size:15px;line-height:1.45}
+
+/* Cómo trabajamos: tres estrellas unidas, cada vez más brillantes */
+.ruta{--eje:10px;list-style:none;margin:44px 0 0;padding:0;display:grid}
+.ruta li{position:relative;padding:0 0 36px 44px}
+.ruta li:last-child{padding-bottom:0}
+.ruta li::before{content:"";position:absolute;left:var(--eje);top:14px;width:var(--s,8px);height:var(--s,8px);border-radius:50%;background:var(--oro);transform:translate(-50%,-50%)}
+.ruta li::after{content:"";position:absolute;left:var(--eje);top:28px;bottom:-2px;border-left:1px solid var(--bruma);opacity:.5}
+.ruta li:last-child::after{display:none}
+.ruta li:nth-child(2){--s:11px}
+.ruta li:nth-child(3){--s:15px}
+.ruta h3{font-size:1.35rem}
+.ruta p{color:var(--bruma);margin-top:8px;max-width:28em}
+@media (min-width:900px){
+  .ruta{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+  .ruta li{padding:44px 0 0}
+  .ruta li::before{top:10px}
+  .ruta li::after{top:10px;bottom:auto;left:calc(var(--eje) + 14px);right:-36px;border-left:0;border-top:1px solid var(--bruma)}
+}
+
+/* Contacto */
+.contacto p{color:var(--bruma);max-width:34em;margin-top:16px}
+.correo{display:inline-block;margin-top:28px;font-stretch:112%;font-weight:600;font-size:clamp(1.3rem,3.4vw,2.4rem);letter-spacing:-.01em;text-decoration:underline;text-decoration-color:var(--oro);text-decoration-thickness:2px;text-underline-offset:.22em;overflow-wrap:anywhere}
+
+/* Pie */
+.pie{border-top:1px solid var(--linea);padding-block:28px 40px;color:var(--bruma);font-size:15px}
+.pie .envoltura{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between}
+.pie nav{display:flex;flex-wrap:wrap;gap:8px 20px}
+.pie a{text-decoration:none}
+.pie a:hover{color:var(--tinta);text-decoration:underline}
+
+/* Páginas de texto */
+.documento{max-width:800px;padding-block:32px 88px}
+.documento h1{font-size:clamp(2rem,5vw,3.2rem)}
+.documento .fecha{color:var(--bruma);margin-top:12px;font-size:15px}
+.documento h2{font-size:1.35rem;margin-top:44px}
+.documento p,.documento ul{margin-top:12px;max-width:40em}
+.documento ul{padding-left:1.2em}
+.documento li+li{margin-top:8px}
+.documento a{text-decoration-color:var(--oro);text-underline-offset:.18em}
+.perdida{min-height:55vh}
+.perdida .boton{margin-top:16px}
